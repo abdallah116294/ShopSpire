@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using ShopSpire.DAL.Context;
+
 namespace ShopSpire
 {
     public class Program
@@ -13,6 +16,10 @@ namespace ShopSpire
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<ShopSpireContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             var app = builder.Build();
 
