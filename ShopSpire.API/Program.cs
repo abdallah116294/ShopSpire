@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using ShopSpire.API.Extensions;
+using System.Security.Claims;
 
 namespace ShopSpire.API
 {
@@ -17,25 +20,43 @@ namespace ShopSpire.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             #region Authentication and Authorization
-            var secretKey= configuration["JWT:Key"];
+            var JWTSection = configuration.GetSection("JWT");
+            var secretKey = JWTSection["Key"];
+            var issuer = JWTSection["ValidIssuer"];
+            var audience = JWTSection["ValidAudience"];
+            //ValidIssuer
+            // ValidAudience
+            //Key
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                options.TokenValidationParameters =new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration["JWT:ValidIssuer"],
-                    ValidAudience = configuration["JWT:ValidAudience"],
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey))
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey)),
+                    RoleClaimType=ClaimTypes.Role
                 };
             });
             #endregion
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.SetIsOriginAllowed(origin => true) // Allow any origin
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .AllowCredentials(); // Add this if you're sending credentials
+                });
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -46,7 +67,7 @@ namespace ShopSpire.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

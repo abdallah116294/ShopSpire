@@ -21,6 +21,11 @@ namespace ShopSpire.Utilities.Helpers
         }
         public string GenerateToken(TokenDTO tokenDTO)
         {
+            var JWTSection = _configuration.GetSection("JWT");
+            var secretKey = JWTSection["Key"];
+            var issuer = JWTSection["ValidIssuer"];
+            var audience = JWTSection["ValidAudience"];
+            var expirationIn = JWTSection["expirationIn"];
             var claims = new List<Claim>
             {
                     new Claim("email", tokenDTO.Email),
@@ -28,12 +33,12 @@ namespace ShopSpire.Utilities.Helpers
                     new Claim("id", tokenDTO.Id),
                      new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-            var AuthKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"])); // Use a secure key
+            var AuthKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)); // Use a secure key
             var Token = new JwtSecurityToken(
-          issuer: _configuration["JWT:ValidIssuer"], // Issuer of the token
-          audience: _configuration["JWT:ValidAudience"], // Audience for the token
+          issuer:issuer, // Issuer of the token
+          audience:audience, // Audience for the token
           claims: claims, // Claims to include in the token
-          expires: DateTime.Now.AddDays(double.Parse(_configuration["JWT:expirationIn"])), // Token expiration time
+          expires: DateTime.Now.AddDays(double.Parse(expirationIn)), // Token expiration time
           signingCredentials: new SigningCredentials(AuthKey, SecurityAlgorithms.HmacSha256) // Signing credentials using HMAC SHA256
           );
             return new JwtSecurityTokenHandler().WriteToken(Token);

@@ -15,14 +15,14 @@ namespace ShopSpire.API.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<User> userManager;
         private readonly TokenHelper _tokenHelper;
-       
+
         public UserController(IUserService userService, TokenHelper tokenHelper, UserManager<User> userManager)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
             this.userManager = userManager;
         }
-        
+
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDTO dto)
         {
@@ -52,6 +52,18 @@ namespace ShopSpire.API.Controllers
         {
             await _userService.LogoutAsync();
             return Ok(new ResponseDto<object> { IsSuccess = true, Message = "Logged out successfully." });
+        }
+        [HttpPost("forget-password")]
+        public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordDTO dto)
+        {
+            var response = await _userService.ForgetPassword(dto);
+            return CreateResponse(response);
+        }
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO dto)
+        {
+            var response = await _userService.ResetPasswordAsync(dto.Email,dto.Token,dto.NewPassword);
+            return CreateResponse(response);
         }
     }
 }

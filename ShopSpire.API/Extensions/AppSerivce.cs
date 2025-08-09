@@ -23,7 +23,12 @@ namespace ShopSpire.API.Extensions
             services.AddSingleton<TokenHelper>();
             // HttpContext Accessor Registration
             services.AddHttpContextAccessor();
-            services.AddIdentity<User, IdentityRole>(o =>
+            //Register IEmailService if you have an email service
+            services.Configure<EmailConfiguration>(configuration.GetSection("EmialConfiguration"));
+            var emailConfig = configuration.GetSection("EmialConfiguration").Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig); // Register EmailConfiguration as a singleton service
+            services.AddScoped<IEmailService, EmailService>(); // Register the email service    
+            services.AddIdentityCore<User>(o =>
             {
                 o.User.RequireUniqueEmail = true;
                 o.Password.RequireDigit = true;
@@ -33,7 +38,9 @@ namespace ShopSpire.API.Extensions
                 o.Password.RequiredLength = 6;
                 o.Password.RequiredUniqueChars = 1;
 
-            }).AddEntityFrameworkStores<ShopSpireDbContext>()
+            }).AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ShopSpireDbContext>()
+                .AddSignInManager<SignInManager<User>>()
             .AddDefaultTokenProviders();
         }
     }

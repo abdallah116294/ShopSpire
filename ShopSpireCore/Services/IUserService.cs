@@ -13,5 +13,7 @@ namespace ShopSpireCore.Services
         Task LogoutAsync();
         Task<ResponseDto<object>> LoginAsync(LoginDTO dto);
         Task<ResponseDto<object>> RegisterAsync(RegisterDTO dto);
+         Task<ResponseDto<object>> ForgetPassword(ForgetPasswordDTO dto);
+        Task<ResponseDto<object>> ResetPasswordAsync(string email, string otp, string newPassword);
     }
 }
