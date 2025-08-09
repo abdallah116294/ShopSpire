@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopSpire.Repository.Data;
 
 #nullable disable
 
-namespace ShopSpire.Repository.Identity.Migrations
+namespace ShopSpire.Repository.Data.Migrations
 {
     [DbContext(typeof(ShopSpireDbContext))]
-    partial class ShopSpireDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250809142856_RenameCategoryTabel")]
+    partial class RenameCategoryTabel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +53,15 @@ namespace ShopSpire.Repository.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
-                            ConcurrencyStamp = "a1",
+                            Id = "225a4958-8e1b-4516-95aa-3c8e3f5b1a51",
+                            ConcurrencyStamp = "7e2bc1fd-67bf-47db-8253-2b755abb7f46",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2",
-                            ConcurrencyStamp = "b1",
+                            Id = "689887fe-e5b5-4aa2-a161-dbe5cdb97ffe",
+                            ConcurrencyStamp = "9b63fda4-fe8a-43d9-8fd2-f8d5f29ff26f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -193,44 +195,6 @@ namespace ShopSpire.Repository.Identity.Migrations
                     b.ToTable("Category", (string)null);
                 });
 
-            modelBuilder.Entity("ShopSpireCore.Entities.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Product", (string)null);
-                });
-
             modelBuilder.Entity("ShopSpireCore.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -353,25 +317,6 @@ namespace ShopSpire.Repository.Identity.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ShopSpireCore.Entities.Product", b =>
-                {
-                    b.HasOne("ShopSpireCore.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ShopSpireCore.Entities.User", "Seller")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Seller");
                 });
 #pragma warning restore 612, 618
         }

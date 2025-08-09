@@ -16,13 +16,17 @@ namespace ShopSpire.Repository.Data.Configurations
             entiy.HasData(
                 new IdentityRole
                 {
+                    Id = "1", // Fixed ID - never change this once set
                     Name = "Admin",
-                    NormalizedName = "ADMIN"
+                    NormalizedName = "ADMIN",
+                    ConcurrencyStamp = "a1" // Fixed stamp
                 },
                 new IdentityRole
                 {
+                    Id = "2",
                     Name = "User",
-                    NormalizedName = "USER"
+                    NormalizedName = "USER",
+                    ConcurrencyStamp = "b1"
                 }
             );
         }

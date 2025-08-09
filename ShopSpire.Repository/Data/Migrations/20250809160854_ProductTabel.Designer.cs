@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopSpire.Repository.Data;
 
 #nullable disable
 
-namespace ShopSpire.Repository.Identity.Migrations
+namespace ShopSpire.Repository.Data.Migrations
 {
     [DbContext(typeof(ShopSpireDbContext))]
-    partial class ShopSpireDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250809160854_ProductTabel")]
+    partial class ProductTabel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +53,15 @@ namespace ShopSpire.Repository.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
-                            ConcurrencyStamp = "a1",
+                            Id = "e88a43b7-0a03-4491-a59f-63a5324fc41a",
+                            ConcurrencyStamp = "270c7546-a642-40bc-8b4e-70adcedf57de",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2",
-                            ConcurrencyStamp = "b1",
+                            Id = "67722234-b770-4bcd-ae44-ddd65b4e60d0",
+                            ConcurrencyStamp = "e4e47597-6c1b-436e-b0e1-445f62004e83",
                             Name = "User",
                             NormalizedName = "USER"
                         });

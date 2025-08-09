@@ -1,14 +1,41 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using ShopSpire.API.Extensions;
+using ShopSpire.Repository.Data;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ShopSpire.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        async static Task InitializeDatabaseAsync(WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+
+            try
+            {
+                var context = services.GetRequiredService<ShopSpireDbContext>();
+
+                // Ensure database is created and up-to-date
+                await context.Database.MigrateAsync();
+
+                // Seed data after database is ready
+                await ShopSpireDataSeeding.SeedAsync(context);
+
+                Console.WriteLine("Database initialized successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while initializing the database: {ex.Message}");
+                throw; // Re-throw to prevent app from starting with bad database state
+            }
+        }
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +74,7 @@ namespace ShopSpire.API
                 };
             });
             #endregion
+            
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
@@ -57,8 +85,11 @@ namespace ShopSpire.API
                           .AllowCredentials(); // Add this if you're sending credentials
                 });
             });
+           
             var app = builder.Build();
-
+            #region Data Seeding 
+            await InitializeDatabaseAsync(app);
+            #endregion
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -75,5 +106,6 @@ namespace ShopSpire.API
 
             app.Run();
         }
+   
     }
 }

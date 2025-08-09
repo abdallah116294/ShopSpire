@@ -28,6 +28,14 @@ namespace ShopSpire.API.Extensions
             var emailConfig = configuration.GetSection("EmialConfiguration").Get<EmailConfiguration>();
             services.AddSingleton(emailConfig); // Register EmailConfiguration as a singleton service
             services.AddScoped<IEmailService, EmailService>(); // Register the email service    
+            //Add Generic Repository
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            //Add UnitOfWork
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //Add Role Repository
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            //Add Role Service 
+            services.AddScoped<IRoleService, RoleService>();
             services.AddIdentityCore<User>(o =>
             {
                 o.User.RequireUniqueEmail = true;
