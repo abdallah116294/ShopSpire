@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopSpire.Repository.Data;
 
 #nullable disable
 
-namespace ShopSpire.Repository.Identity.Migrations
+namespace ShopSpire.Repository.Data.Migrations
 {
     [DbContext(typeof(ShopSpireDbContext))]
-    partial class ShopSpireDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250811130357_CartEntityTODB")]
+    partial class CartEntityTODB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
