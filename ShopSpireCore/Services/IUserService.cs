@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopSpire.Utilities.DTO;
+using ShopSpireCore.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +18,6 @@ namespace ShopSpireCore.Services
          Task<ResponseDto<object>> ForgetPassword(ForgetPasswordDTO dto);
         Task<ResponseDto<object>> ResetPasswordAsync(string email, string otp, string newPassword);
         Task<ResponseDto<object>> GetAllSeller();
+        Task<User> GetUserByID(string id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ShopSpire.Utilities.DTO;
 using ShopSpire.Utilities.DTO.Cart;
+using ShopSpire.Utilities.DTO.Order;
 using ShopSpireCore.Entities;
 
 namespace ShopSpire.API
@@ -22,6 +23,14 @@ namespace ShopSpire.API
             .ForMember(dest => dest.ProductPrice, opt => opt.MapFrom(src => src.Product.Price))
             .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Product.Price * src.Quantity))
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Product.Category.Name));
+            //Product Order
+            CreateMap<ProductOrder, ProductOrderDTO>()
+            .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name))
+            .ForMember(dest => dest.OrderNumber, opt => opt.MapFrom(src => src.Order.Id))
+            .ForMember(dest => dest.LineTotal, opt => opt.MapFrom(src => src.LineTotal));
+
+            CreateMap<CreateProductOrderDTO, ProductOrder>();
+            CreateMap<UpdateProductOrderDTO, ProductOrder>();
         }
     }
 }

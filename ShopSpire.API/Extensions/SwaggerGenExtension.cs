@@ -11,9 +11,9 @@ namespace ShopSpire.API.Extensions
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo
                     {
-                        Title = "Maqha API",
+                        Title = "ShopSpire API",
                         Version = "v1",
-                        Description = "Maqha API with JWT Authentication"
+                        Description = "ShopSpire API with JWT Authentication"
                     });
 
                     // ✅ Add JWT Authentication to Swagger

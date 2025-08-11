@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ShopSpire.Repository.Repositories
 {
@@ -47,6 +48,12 @@ namespace ShopSpire.Repository.Repositories
         public async Task<string> GetOtpAsyn(User user)
         {
             return await _userManager.GetAuthenticationTokenAsync(user, "ShopSpire", "ResetPassword");
+        }
+
+        public async Task<User> GetUserById(string id)
+        {
+            var user = await _unitOfWork.Repository<User>().GetAllAsync(predicate:u=>u.Id==id,query=>query.Include(u=>u.FirstName+" "+u.LastName));
+            return user.FirstOrDefault();
         }
 
         public async Task<bool> LoginAsync(LoginDTO dto)

@@ -10,7 +10,7 @@ namespace ShopSpireCore.IRepositories
     public interface IGenericRepository<T>where T:class
     {
         Task<List<T>> GetAllAsync();
-        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, params Expression<Func<T, object>>[] includes);
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, params Expression<Func<T, object>>[]? includes);
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, params Func<IQueryable<T>, IQueryable<T>>[]? includes);
         Task<T> GetByIdAsync(int id);
         Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);

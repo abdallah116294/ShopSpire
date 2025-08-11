@@ -21,7 +21,7 @@ namespace ShopSpireCore.IRepositories
         Task<IdentityResult> ResetPasswordAsync(User user, string resetToken, string newPassword);
         Task<string> GeneratePasswordResetTokenAsync(User user);
         Task<List<User>> GetAllSeller();
-
+        Task<User> GetUserById(string id);
 
     }
 }

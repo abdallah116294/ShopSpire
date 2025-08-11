@@ -105,6 +105,11 @@ namespace ShopSpire.Service
             }
         }
 
+        public async Task<User> GetUserByID(string id)
+        {
+            return await _userRepository.GetUserById(id);
+        }
+
         public async Task<ResponseDto<object>> LoginAsync(LoginDTO dto)
         {
             try
