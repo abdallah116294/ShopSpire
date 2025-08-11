@@ -17,13 +17,15 @@ namespace ShopSpire.Repository.Repositories
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserRepository(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IEmailService emailService)
+        public UserRepository(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IEmailService emailService, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _emailService = emailService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<User> FindByEmailAsync(string email)
@@ -34,6 +36,12 @@ namespace ShopSpire.Repository.Repositories
         public async Task<string> GeneratePasswordResetTokenAsync(User user)
         {
             return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<List<User>> GetAllSeller()
+        {
+            var users=await _unitOfWork.Repository<User>().GetAllAsync();
+            return users;
         }
 
         public async Task<string> GetOtpAsyn(User user)

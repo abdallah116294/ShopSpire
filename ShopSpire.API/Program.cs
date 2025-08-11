@@ -45,7 +45,8 @@ namespace ShopSpire.API
             builder.Services.AddAppServices(configuration);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerEx();
             #region Authentication and Authorization
             var JWTSection = configuration.GetSection("JWT");
             var secretKey = JWTSection["Key"];

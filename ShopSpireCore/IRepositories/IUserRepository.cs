@@ -20,6 +20,7 @@ namespace ShopSpireCore.IRepositories
         Task<bool> RemoveOtpAsync(User user);
         Task<IdentityResult> ResetPasswordAsync(User user, string resetToken, string newPassword);
         Task<string> GeneratePasswordResetTokenAsync(User user);
+        Task<List<User>> GetAllSeller();
 
 
     }

@@ -11,8 +11,10 @@ namespace ShopSpireCore.IRepositories
     {
         Task<List<T>> GetAllAsync();
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, params Expression<Func<T, object>>[] includes);
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, params Func<IQueryable<T>, IQueryable<T>>[]? includes);
         Task<T> GetByIdAsync(int id);
         Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);
+        Task<T> GetByIdAsync(int id, params Func<IQueryable<T>, IQueryable<T>>[]? includes);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task UpdateAsync(int id, Action<T> updateAction);

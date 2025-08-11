@@ -36,6 +36,8 @@ namespace ShopSpire.API.Extensions
             services.AddScoped<IRoleRepository, RoleRepository>();
             //Add Role Service 
             services.AddScoped<IRoleService, RoleService>();
+            //AutoMapper
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.AddIdentityCore<User>(o =>
             {
                 o.User.RequireUniqueEmail = true;

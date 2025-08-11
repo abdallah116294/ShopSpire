@@ -48,6 +48,23 @@ namespace ShopSpire.Repository.Repositories
             return query.ToListAsync();
         }
 
+        public  async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, params Func<IQueryable<T>, IQueryable<T>>[]? includes)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            if (includes != null)
+            {
+                foreach(var include in includes)
+                {
+                    query = include(query);
+                }
+            }
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            return await query.ToListAsync();
+        }
+
         public async Task<T> GetByIdAsync(int id)
         {
             var entity = await _context.Set<T>().FindAsync(id);
@@ -68,6 +85,21 @@ namespace ShopSpire.Repository.Repositories
             }
             var entity =await query.FirstOrDefaultAsync(e=>EF.Property<int>(e,"Id")==id);
             return entity;
+        }
+
+        public async Task<T> GetByIdAsync(int id, params Func<IQueryable<T>, IQueryable<T>>[]? includess)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (includess != null)
+            {
+                foreach (var include in includess)
+                {
+                    query = include(query);
+                }
+            }
+
+            return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
         }
 
         public async Task UpdateAsync(T entity)

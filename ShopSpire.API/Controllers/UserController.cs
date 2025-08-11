@@ -65,5 +65,12 @@ namespace ShopSpire.API.Controllers
             var response = await _userService.ResetPasswordAsync(dto.Email,dto.Token,dto.NewPassword);
             return CreateResponse(response);
         }
+        //Get All Seller
+        [HttpGet("GetAllSeller")]
+        public async Task<IActionResult> GetAllSeller() 
+        { 
+            var seller=await _userService.GetAllSeller();
+            return CreateResponse(seller);
+        }
     }
 }

@@ -74,6 +74,37 @@ namespace ShopSpire.Service
             }
         }
 
+        public async Task<ResponseDto<object>> GetAllSeller()
+        {
+            try
+            {
+                var users = await _userRepository.GetAllSeller();
+                if(users == null)
+                {
+                    return new ResponseDto<object>
+                    {
+                        IsSuccess = false,
+                        Message = "No Seller Found",
+                        ErrorCode=ErrorCodes.NotFound,
+                    };
+                }
+                return new ResponseDto<object>
+                {
+                    IsSuccess = true,
+                    Message = "Get All Sellers",
+                    Data = users
+                };
+            }
+            catch(Exception ex)
+            {
+                return new ResponseDto<object>
+                {
+                    IsSuccess = false,
+                    Message = "An Error Accured While Foreget Password"
+                };
+            }
+        }
+
         public async Task<ResponseDto<object>> LoginAsync(LoginDTO dto)
         {
             try
