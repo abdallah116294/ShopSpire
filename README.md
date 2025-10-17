@@ -3,6 +3,9 @@
 ## Introduction
 
 ShopSpire is a modern e-commerce platform designed to simplify online retail for both developers and merchants. The project offers a robust, scalable, and customizable solution capable of managing products, categories, orders, and user accounts. Whether you are building a small boutique storefront or a large multi-vendor marketplace, ShopSpire provides the essential features and extensibility you need to launch, manage, and grow your online business.
+
+
+
 ![.NET](https://img.shields.io/badge/.NET-8.0-blue)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-8.0-blue)
 ![Entity Framework](https://img.shields.io/badge/Entity_Framework-Core_8.0-green)
